@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles/clndr.css">
+</head>
+<body>
+  <div class="container">
+  
+    <div id="calendar" class="cal2">
+      
+    </div>
+
+
+    <script type="text/template" id="calendar-template">
+       <div class="clndr-controls">
+        <div class="clndr-previous-button">&lsaquo;</div>
+        <div class="month"><%= month %></div>
+        <div class="clndr-next-button">&rsaquo;</div>
+      </div>
+      <div class="clndr-grid">
+        <div class="days-of-the-week">
+          <% _.each(daysOfTheWeek, function(day) { %>
+            <div class="header-day"><%= day %></div>
+          <% }); %>
+          <div class="days">
+            <% _.each(days, function(day) { %>
+              <div class="<%= day.classes %>"><%= day.day %> <% if(day.day == 20) console.log(day.day + month + year + ', es 20...') %> </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </script>
+
+  </div>
+
+
+  <script src="json2.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+  <script src= "moment-2.2.1.js"></script>
+
+  <script src="../src/clndr.js"></script>
+  <script>
+    $(document).ready( function() {
+      // there are a lot of options. the rabbit hole is deep.
+      $('#calendar').clndr({
+        template: $('#calendar-template').html(),
+        weekOffset: 1,
+        daysOfTheWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+        numberOfRows: 5,
+        //startWithMonth: "2013-05-01",
+        events: [
+          { date: '2013-09-09', title: 'CLNDR GitHub Page Finished', url: 'http://github.com/kylestetz/CLNDR', total: 5 },
+          { date: '2013-11-15', title: 'CLNDR GitHub Page Finished', url: 'http://github.com/kylestetz/CLNDR', total: 10 }
+        ],
+        clickEvents: {
+          click: function(target) {
+            console.log(target);
+
+            if(_.size(target.events) > 0 ) console.log('total: '+ target.events[0].total)
+
+          },
+          onMonthChange: function(month) {
+            console.log('you just went to ' + month.format('MMMM, YYYY'));
+          }
+        },
+        doneRendering: function() {
+          console.log('this would be a fine place to attach custom event handlers.****');
+        }
+      });
+    });
+
+
+
+
+  </script>
+
+</body>
+</html>
