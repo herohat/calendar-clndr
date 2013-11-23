@@ -13,21 +13,35 @@
 
 
     <script type="text/template" id="calendar-template">
-       <div class="clndr-controls">
+
+     <div class="clndr-controls">
         <div class="clndr-previous-button">&lsaquo;</div>
         <div class="month"><%= month %></div>
         <div class="clndr-next-button">&rsaquo;</div>
       </div>
+
       <div class="clndr-grid">
         <div class="days-of-the-week">
+          
           <% _.each(daysOfTheWeek, function(day) { %>
             <div class="header-day"><%= day %></div>
           <% }); %>
+          
           <div class="days">
             <% _.each(days, function(day) { %>
-              <div class="<%= day.classes %>"><%= day.day %> <% if(day.day == 20) console.log(day.day + month + year + ', es 20...') %> </div>
+              <div class="<%= day.classes %>">                 
+                 <%  //if( !$(day.element).hasClass('last-month') ) { console.log(day); }
+                    if(_.size(day.events) > 0 ){ /*console.log('total: '+ day.events[0].total) */ %>
+
+                      <span class="total-by-date"> <%= day.events[0].total %> </span>
+
+                  <% } %>
+
+                <%= day.day %> 
+              </div>
             <% }); %>
           </div>
+
         </div>
       </div>
     </script>
@@ -51,23 +65,31 @@
         numberOfRows: 5,
         //startWithMonth: "2013-05-01",
         events: [
-          { date: '2013-09-09', title: 'CLNDR GitHub Page Finished', url: 'http://github.com/kylestetz/CLNDR', total: 5 },
-          { date: '2013-11-15', title: 'CLNDR GitHub Page Finished', url: 'http://github.com/kylestetz/CLNDR', total: 10 }
+          { date: '2013-10-09', total: 5 },
+          { date: '2013-11-15', total: 10 },
+          { date: '2013-11-20', total: 13 }
         ],
+        dateParameter: 'date',
+        showAdjacentMonths: true,
+        adjacentDaysChangeMonth: false,
         clickEvents: {
           click: function(target) {
-            console.log(target);
+            //console.log(target);
 
             if(_.size(target.events) > 0 ) console.log('total: '+ target.events[0].total)
 
           },
           onMonthChange: function(month) {
-            console.log('you just went to ' + month.format('MMMM, YYYY'));
+            console.log('you just went to ' + month.format('M-YYYY'));
           }
         },
         doneRendering: function() {
-          console.log('this would be a fine place to attach custom event handlers.****');
-        }
+          //console.log('this would be a fine place to attach custom event handlers.****');
+        },
+        constraints: {
+          startDate: new Date().getFullYear()+'-01-01',
+          endDate: new Date().getFullYear()+'-12-31'
+        }        
       });
     });
 

@@ -255,7 +255,7 @@ p {
   line-height: 85px;
 }
 .cal2 .clndr .clndr-grid .day.event {
-  background-color: #B4E09F;
+  background-color: #B4E09F; font-weight: bold; cursor:  pointer;
 }
 .cal2 .clndr .clndr-grid .day.today {
   background-color: #E3C57F;
@@ -275,3 +275,9 @@ p {
 .cal2 .clndr .clndr-today-button:hover {
   background-color: #ddd;
 }
+
+
+/* custom by herohat@gmail.com */
+div.days div.day { position: relative; }
+div.day span.total-by-date  { display: block; position: absolute; background: blue; color: white; width: 20px; 
+  height: 20px; right: 0; font-size: 11px; top: 0; line-height: 2; font-weight: normal; }
