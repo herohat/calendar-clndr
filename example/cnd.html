@@ -11,6 +11,10 @@
       
     </div>
 
+    <div class="listado">
+        <span class="fecha"> xxxx </span>
+    </div>
+
 
     <script type="text/template" id="calendar-template">
 
@@ -76,7 +80,10 @@
           click: function(target) {
             //console.log(target);
 
-            if(_.size(target.events) > 0 ) console.log('total: '+ target.events[0].total)
+            if(_.size(target.events) > 0 ){
+              console.log('total: '+ target.events[0].total);
+              getListado(target);
+            } 
 
           },
           onMonthChange: function(month) {
@@ -94,7 +101,10 @@
     });
 
 
-
+    function getListado(target){
+      console.log(target.events[0].date);
+      $('div.listado span.fecha').html(target.events[0].date);
+    }
 
   </script>
 
