@@ -62,7 +62,7 @@
   <script>
     $(document).ready( function() {
       // there are a lot of options. the rabbit hole is deep.
-      $('#calendar').clndr({
+      theCalendarInstance = $('#calendar').clndr({
         template: $('#calendar-template').html(),
         weekOffset: 1,
         daysOfTheWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
@@ -71,7 +71,9 @@
         events: [
           { date: '2013-10-09', total: 5 },
           { date: '2013-11-15', total: 10 },
-          { date: '2013-11-20', total: 13 }
+          { date: '2013-11-20', total: 13 },
+          { date: '2013-01-05', total: 8 },
+          { date: '2013-12-25', total: 3 }
         ],
         dateParameter: 'date',
         showAdjacentMonths: true,
@@ -81,13 +83,31 @@
             //console.log(target);
 
             if(_.size(target.events) > 0 ){
-              console.log('total: '+ target.events[0].total);
+              //console.log('total: '+ target.events[0].total);
               getListado(target);
             } 
 
           },
           onMonthChange: function(month) {
-            console.log('you just went to ' + month.format('M-YYYY'));
+            //console.log('you just went to ' + month.format('M-YYYY'));            
+            
+            var actualYear = new Date().getFullYear();
+            var selectedYear = month.format('YYYY');
+            var selectedMonth = month.format('M');
+
+            if(actualYear != selectedYear){ //IE8 hack, because there are a bug with contraints over IE8
+
+              if(selectedMonth == 12) theCalendarInstance.forward(); //Go back to January
+              if(selectedMonth == 01) theCalendarInstance.back(); //Go back to December
+
+            }
+
+
+            //theCalendarInstance.setMonth(09); // Set the month using a number from 0-11 or a month name            
+            //theCalendarInstance.setEvents(newEventsArray); //// Change the events. Note that this triggers a re-render of the calendar.
+            //theCalendarInstance.addEvents(additionalEventsArray); // Add events. Note that this triggers a re-render of the calendar.
+            //theCalendarInstance.forward(); // Go to the next month            
+            //theCalendarInstance.back(); // Go to the previous month           
           }
         },
         doneRendering: function() {
@@ -102,7 +122,7 @@
 
 
     function getListado(target){
-      console.log(target.events[0].date);
+      //console.log(target.events[0].date);
       $('div.listado span.fecha').html(target.events[0].date);
     }
 
